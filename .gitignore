@@ -4,3 +4,6 @@ client/package-lock.json
 mobile/package-lock.json
 server/package-lock.json
 package-lock.json
+server\access.log
+server\public\javascripts\error.log
+server\public\javascripts\success.log

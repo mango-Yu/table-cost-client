@@ -166,7 +166,8 @@
           data=data.data
           if(data.code==1){
             if(data.data.length>0){
-              that.form=data.data[0]
+              data.data[0].date = new Date(data.data[0].date);
+              that.form = data.data[0]
             }else{
                 for(let i in that.form){
                   console.log(i)
