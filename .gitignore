@@ -1,9 +1,41 @@
-.idea/
 server/node_modules/
 client/package-lock.json
 mobile/package-lock.json
 server/package-lock.json
 package-lock.json
-server/public/javascripts/error.log
-server/access.log
-server/public/javascripts/success.log
+*.log
+#java
+*.class
+
+#package file
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+#maven ignore
+target/
+build/
+
+#eclipse ignore
+.settings/
+.project
+.classpatch
+
+#Intellij idea
+.idea/
+/idea/
+*.ipr
+*.iml
+*.iws
+
+# temp file
+*.log
+*.cache
+*.diff
+*.patch
+*.tmp
+
+# system ignore
+.DS_Store
+Thumbs.db

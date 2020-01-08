@@ -368,3 +368,9 @@
 {"code":"ER_NO_SUCH_TABLE","errno":1146,"sqlMessage":"Table 'user.syy' doesn't exist","sqlState":"42S02","index":0,"sql":" select sum(breakfast),sum(lunch),sum(dinner),sum(traffic),sum(sock),sum(clothes),sum(play),sum(others) from syy where date>'2020-01' and date<'2020-02' and user='syy'"}
 [Thu Jan 09 2020 01:34:50 GMT+0800 (GMT+08:00)] 
 {"code":"ER_NO_SUCH_TABLE","errno":1146,"sqlMessage":"Table 'user.syy' doesn't exist","sqlState":"42S02","index":0,"sql":" select sum(breakfast),sum(lunch),sum(dinner),sum(traffic),sum(sock),sum(clothes),sum(play),sum(others) from syy where date>'2020-01' and date<'2020-02' and user='syy'"}
+[Thu Jan 09 2020 01:50:35 GMT+0800 (GMT+08:00)] 
+{"code":"ER_NO_SUCH_TABLE","errno":1146,"sqlMessage":"Table 'user.syy' doesn't exist","sqlState":"42S02","index":0,"sql":" select sum(breakfast),sum(lunch),sum(dinner),sum(traffic),sum(sock),sum(clothes),sum(play),sum(others) from syy where date>'2020-01' and date<'2020-02' and user='syy'"}
+[Thu Jan 09 2020 01:50:37 GMT+0800 (GMT+08:00)] 
+{"code":"ER_NO_SUCH_TABLE","errno":1146,"sqlMessage":"Table 'user.syy' doesn't exist","sqlState":"42S02","index":0,"sql":" select sum(breakfast),sum(lunch),sum(dinner),sum(traffic),sum(sock),sum(clothes),sum(play),sum(others) from syy where date>'2020-01' and date<'2020-02' and user='syy'"}
+[Thu Jan 09 2020 01:51:49 GMT+0800 (GMT+08:00)] 
+{"code":"ER_NO_SUCH_TABLE","errno":1146,"sqlMessage":"Table 'user.syy' doesn't exist","sqlState":"42S02","index":0,"sql":" select sum(breakfast),sum(lunch),sum(dinner),sum(traffic),sum(sock),sum(clothes),sum(play),sum(others) from syy where date>'2020-01' and date<'2020-02' and user='syy'"}
