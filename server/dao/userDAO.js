@@ -49,6 +49,16 @@ module.exports = {
             callback(formats.success(result));
         })
     },
+    selectOrder:function (name, callback) {
+        pool.query(userSqlMap.getAllOtder, name, function (error, result) {
+            if (error) {
+                callback(formats.error(error))
+                console.log(error)
+                return
+            }
+            callback(formats.success(result));
+        })
+    },
     inistallSyy:function (datakey,dataVal,callback) {
         datakey='insert into detail('+datakey+') values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
         pool.query(datakey, dataVal, function (error, result) {

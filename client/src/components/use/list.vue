@@ -5,7 +5,7 @@
 <script>
   import store from '@/store/store'
   import {formatDate} from '@/assets/js/tool'
-  import {subSpending,getSpending} from '@/assets/userapi'
+  import {subSpending,getSpending,getAllSpending} from '@/assets/userapi'
   export default {
     name: "list",
     store,
@@ -26,7 +26,7 @@
 
       init(){
         var that=this
-        getSpending().then(function (data) {
+        getAllSpending().then(function (data) {
           console.log(data)
           data=data.data
           if(data.code==1){

@@ -23,6 +23,8 @@ router.post('/changePassword',users.changePassword);
 router.post('/subSpending',users.subSpending);
 //获取消费信息
 router.post('/getSpending',users.getSpending);
+//获取所有消费信息
+router.post('/getAllSpending',users.getAllSpending);
 //获取信息总计按月
 router.post('/getSumByDate',users.getSumByDate);
 

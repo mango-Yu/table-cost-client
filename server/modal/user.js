@@ -127,6 +127,15 @@ exports.getSpending=function (req,res) {
         res.end(JSON.stringify(data));
     })
 }
+//获取所有消费信息
+exports.getAllSpending=function (req,res) {
+    console.log(req.body)
+    userApi.selectOrder([req.session.name],function (data) {
+        console.log("getAllSpending")
+        console.log(data)
+        res.end(JSON.stringify(data));
+    })
+}
 //获取消费信息总计按月
 exports.getSumByDate=function (req,res) {
     console.log(req.body)

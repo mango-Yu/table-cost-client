@@ -1,24 +1,7 @@
 <template>
-  <el-container style="height: 100%">
-    <el-header>
-      <el-menu
-        :default-active="activeIndex2"
-        class="el-menu-demo"
-        mode="horizontal"
-        @select="handleSelect"
-        background-color="#545c64"
-        text-color="#fff"
-        active-text-color="#ffd04b">
-        <el-menu-item index="1">消费记录</el-menu-item>
-        <el-menu-item index="2">消费列表</el-menu-item>
-        <el-submenu  index="4" style="float: right">
-          <template slot="title"><span>欢迎你 {{name}}</span></template>
-          <el-menu-item index="4-1" @click="loginout">退出</el-menu-item>
-          <el-menu-item index="4-2" @click="dialogVisible = true">修改密码</el-menu-item>
-        </el-submenu>
+  <router-view name="top"></router-view>
+  <!--<el-container style="height: 100%">
 
-      </el-menu>
-    </el-header>
     <el-main>
       <div class="main">
          <div class="mian-content">
@@ -58,11 +41,11 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="changePas">确 定</el-button>
-  </span>
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="changePas">确 定</el-button>
+      </span>
     </el-dialog>
-  </el-container>
+  </el-container>-->
 </template>
 
 <script>
@@ -75,9 +58,7 @@
     store,
     data:function(){
       return {
-        list:[1,2],
-        activeIndex: '1',
-        activeIndex2: '1',
+
         month:"",
         count:0,
         now:"",
@@ -90,16 +71,10 @@
           clothes: 0,
           play: 0,
           others: 0,
-        },
-        dialogVisible: false,
-        passsword:{
-          origain:"",
-          newword:"",
-          remewword:""
         }
       }
     },
-    mounted:function(){
+    mounted(){
       let date=new Date();
       let month=date.getMonth()+1
       let year=date.getFullYear()
@@ -130,9 +105,7 @@
       }
     },
     methods: {
-      handleSelect(key, keyPath) {
-        console.log(key, keyPath);
-      },
+
       init(){
         let that=this;
         that.count=0;
@@ -172,21 +145,7 @@
         }
         this.init()
       },
-      loginout(){
-        this.$confirm('确认退出?', '提示', {
-          cancelButtonText: '取消',
-          confirmButtonText: '确定',
-          type: 'warning'
-        }).then(() => {
-          this.out();
-        }).catch(() => {
 
-        });
-      },
-      out(){
-        sessionStorage.removeItem('name');
-        this.$router.push('/')
-      },
       changePas(){
         if(this.passsword.origain==''){
           this.$message.error('请输入原来的密码');
