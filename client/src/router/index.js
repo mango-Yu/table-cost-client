@@ -22,7 +22,12 @@ export default new Router({
     {
       path: '/register',
       name: 'register',
-      component: Register
+      component: Register,
+      components: {
+        default:Register,
+        top: TopNav
+      }
+
     }
     ,
     {
@@ -43,6 +48,10 @@ export default new Router({
       component: Form,
       meta: {
         requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+      },
+      components: {
+        default:Form,
+        top: TopNav
       }
     }
     ,
@@ -52,6 +61,10 @@ export default new Router({
       component: List,
       meta: {
         requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+      },
+      components: {
+        default:List,
+        top: TopNav
       }
     }
     ,

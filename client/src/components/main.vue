@@ -1,7 +1,5 @@
 <template>
-  <router-view name="top"></router-view>
-  <!--<el-container style="height: 100%">
-
+  <el-container style="height: 100%">
     <el-main>
       <div class="main">
          <div class="mian-content">
@@ -24,33 +22,13 @@
         </div>
       </div>
     </el-main>
-    <el-dialog
-      title="修改密码"
-      :visible.sync="dialogVisible"
-      width="500px"
-      >
-      <el-form ref="passsword"   :model="passsword"  label-width="80px">
-        <el-form-item label="原来密码">
-            <el-input type="password"  v-model="passsword.origain"></el-input>
-        </el-form-item>
-        <el-form-item label="新的密码">
-          <el-input type="password" v-model="passsword.newword" ></el-input>
-        </el-form-item>
-        <el-form-item label="重复密码">
-          <el-input type="password" v-model="passsword.remewword" ></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="changePas">确 定</el-button>
-      </span>
-    </el-dialog>
-  </el-container>-->
+
+  </el-container>
 </template>
 
 <script>
   import store from '@/store/store'
-  import {getSumByDate,changePassword} from '@/assets/userapi'
+  import {getSumByDate} from '@/assets/userapi'
   import forms from  '@/components/use/forms'
 
   export default {
@@ -58,7 +36,6 @@
     store,
     data:function(){
       return {
-
         month:"",
         count:0,
         now:"",
@@ -86,9 +63,6 @@
 
     },
     computed: {
-      name() {
-        return this.$store.state.name
-      },
       eat(){
         return (this.form.breakfast+this.form.lunch+this.form.dinner).toFixed(2)
       },
@@ -144,41 +118,6 @@
 
         }
         this.init()
-      },
-
-      changePas(){
-        if(this.passsword.origain==''){
-          this.$message.error('请输入原来的密码');
-          return
-        }
-        if(this.passsword.newword==''){
-          this.$message.error('请输入新的的密码');
-          return
-        }
-        if(this.passsword.remewword==''){
-          this.$message.error('重复密码');
-          return
-        }
-        if(this.passsword.remewword!=this.passsword.newword){
-          this.$message.error('新的的密码与重复密码不一致');
-          return
-        }
-        let that=this;
-        changePassword(this.passsword.origain,this.passsword.newword).then(function (data) {
-          console.log(data)
-         let  newdata=data.data;
-          if(newdata.code==1){
-            that.$message.success('修改成功');
-            that.dialogVisible=false
-          }else{
-            that.$message.error(newdata.msg);
-          }
-        }).catch(function (error) {
-          console.log(error)
-          that.$message.error('未知异常');
-
-        })
-
       },
       getTwo(val){
         return parseInt(val*100)/100.0
@@ -265,9 +204,7 @@
     text-align: left;
 
   }
-  .el-dialog{
-    text-align: left;
-  }
+
 
 
 </style>

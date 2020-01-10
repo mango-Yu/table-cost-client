@@ -5,7 +5,7 @@
 <script>
   import store from '@/store/store'
   import {formatDate} from '@/assets/js/tool'
-  import {subSpending,getSpending,getAllSpending} from '@/assets/userapi'
+  import {getAllSpending} from '@/assets/userapi'
   export default {
     name: "list",
     store,
