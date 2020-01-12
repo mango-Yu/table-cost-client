@@ -1,5 +1,5 @@
 <template>
-  <el-container style="height: 100%">
+  <el-container>
     <el-main>
       <div class="main">
          <div class="mian-content">
@@ -146,6 +146,8 @@
     color: #333;
     text-align: center;
     line-height: 160px;
+    padding-top: 0px;
+    padding-bottom: 0px;
   }
 
   body > .el-container {
@@ -160,9 +162,11 @@
     -webkit-box-align: start;
     -ms-flex-align: start;
     align-items: flex-start;
-    margin: 10px auto;
+    margin:0 auto;
     padding: 0 16px;
-    min-height: 100vh;
+    /*min-height: 100vh;
+    margin-top: 0px;
+    margin-bottom: 0px;*/
   }
   .mian-content{
     width: 694px;
@@ -176,10 +180,10 @@
   }
   .mian-content{
     background: #fff;
-    padding: 20px;
+    padding: 20px 20px 0 20px;
     box-sizing: border-box;
     border: 1px solid #ddd;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
     text-align: left;
   }
 

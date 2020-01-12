@@ -22,11 +22,7 @@ export default new Router({
     {
       path: '/register',
       name: 'register',
-      component: Register,
-      components: {
-        default:Register,
-        top: TopNav
-      }
+      component: Register
 
     }
     ,

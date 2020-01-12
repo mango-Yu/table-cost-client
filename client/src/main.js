@@ -34,6 +34,14 @@ router.beforeEach((to, from, next) => {
     next();
   }
 })
+Vue.filter('formatDateTime', function (value) {
+  if (!value) return ''
+  let date = new Date(value);
+  let y = date.getFullYear() + '/';
+  let mon = (date.getMonth() + 1) + '/';
+  let d = date.getDate();
+  return y + mon + d;
+});
 
 /* eslint-disable no-new */
 new Vue({

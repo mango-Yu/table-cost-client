@@ -60,7 +60,7 @@ module.exports = {
         })
     },
     inistallSyy:function (datakey,dataVal,callback) {
-        datakey='insert into detail('+datakey+') values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+        datakey='insert into detail('+datakey+') values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
         pool.query(datakey, dataVal, function (error, result) {
             if (error) {
                 callback(formats.error(error))

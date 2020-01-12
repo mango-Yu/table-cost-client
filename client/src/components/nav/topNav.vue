@@ -13,8 +13,8 @@
       <el-menu-item index="/list">消费列表</el-menu-item>
       <el-submenu index="/main" style="float: right">
         <template slot="title"><span>欢迎你 {{name}}</span></template>
-        <el-menu-item   @click="logout">退出</el-menu-item>
-        <el-menu-item    @click="dialogVisible = true">修改密码</el-menu-item>
+        <el-menu-item index=""  @click="logout">退出</el-menu-item>
+        <el-menu-item index=""  @click="dialogVisible = true">修改密码</el-menu-item>
       </el-submenu>
     </el-menu>
       <el-dialog
