@@ -16,8 +16,10 @@
       <!--</el-col>-->
       <!--表格数据-->
       <el-col class="table-wrapper" id="table-wrapper">
-        <el-table :data="tableData" stripe style="width: 100%" >
-          <el-table-column align="center" prop="mId" v-if="idShow" label="ID" ></el-table-column>
+        <el-table :data="tableData" stripe style="width: 100%"
+                  show-summary
+                  :summary-method="getSummaries">
+          <el-table-column align="center" prop="id" v-if="idShow" label="ID" ></el-table-column>
           <el-table-column align="center" prop="date" label="日期" sortable  >
             <template slot-scope="scope">
               {{scope.row.date  | formatDateTime}}
@@ -26,6 +28,7 @@
           <el-table-column align="center" prop="user" label="用户"></el-table-column>
           <el-table-column align="center" prop="breakfast" label="早餐"></el-table-column>
           <el-table-column align="center" prop="lunch" label="午餐" ></el-table-column>
+          <el-table-column align="center" prop="dinner" label="晚餐" ></el-table-column>
           <el-table-column align="center" prop="traffic" label="交通" ></el-table-column>
           <el-table-column align="center" prop="sock" label="零食" ></el-table-column>
           <el-table-column align="center" prop="clothes" label="服装" ></el-table-column>
@@ -39,6 +42,9 @@
                 {{scope.row.work == 1? "上班" : "不上班"}}
             </template>
           </el-table-column>
+          <el-table-column align="center" prop="sumCalc" label="总计" >
+
+          </el-table-column>
         </el-table>
       </el-col>
       <el-col :span="24" class="toolbar">
@@ -46,6 +52,12 @@
                        :current-page="currentPage" :page-sizes="[10, 50, 100, 200]" :page-size="pageSize"
                        layout="total, sizes, prev, pager, next, jumper" :total="total">
         </el-pagination>
+      </el-col>
+      <el-col :span="24">
+        <div id="chartColumn" style="width: 100%; height: 400px;"></div>
+      </el-col>
+      <el-col :span="24">
+        <div id="chartBar" style="width: 100%; height: 400px;"></div>
       </el-col>
     </el-row>
   </div>
@@ -55,6 +67,7 @@
   import store from '@/store/store'
   import {formatDate} from '@/assets/js/tool'
   import {getAllSpending} from '@/assets/userapi'
+  import echarts from 'echarts'
   export default {
     name: "list",
     store,
@@ -69,7 +82,11 @@
         detailId: 0, // 详情ID
         filters: { // 搜索表单
           number: ''
-        }
+        },
+        chartColumn: null,
+        chartBar: null,
+        dateArr: [],
+        costArr: []
       };
     },
     mounted: function () {
@@ -85,11 +102,18 @@
       init(){
         var that=this
         getAllSpending().then(function (data) {
-          console.log(data)
           data=data.data
-          if(data.code==1){
+          if(1 === data.code){
             if(data.data.length>0){
-              that.tableData=data.data
+              that.tableData=data.data;
+              that.tableData.forEach((item, index) => {
+                that.tableData[index].sumCalc = parseFloat(item.breakfast)+parseFloat(item.lunch)+parseFloat(item.dinner)+
+                  parseFloat(item.traffic)+parseFloat(item.sock)+parseFloat(item.clothes)+
+                  parseFloat(item.play)+parseFloat(item.others);
+                that.dateArr.push(formatDate(new Date(item.date), "yyyy-MM-dd"));
+                that.costArr.push(that.tableData[index].sumCalc);
+                that.drawShape();
+              })
             }else{
 
             }
@@ -100,21 +124,6 @@
         }).catch(function (error) {
           that.$message.error('系统异常');
         })
-      },
-      formatInput(val){
-
-      },
-      blurInput(val){
-        console.log(val)
-        let that=this;
-        let num=this.form[val]+"";
-        console.log(num)
-        num=num.replace(/[^\-?\d.]/g,'');
-        if(num==""){
-          num=0
-        }
-        this.$set(that.form,val,num)
-
       },
 
       // 搜索
@@ -131,26 +140,95 @@
       handleCurrentChange(val){
 //        this.currentPage = val;
       },
-      // 创建日期转换
-      dateFormatter(row, column) {
-        return this.getDateValue(row.createTime);
-      },
-      // 执行日期转换
-      activeTateFormatter(row, column) {
-        return this.getDateValue(row.activeTime);
-      },
-      // 获取日期
-      getDateValue(datetime) {
-        if (datetime) {
-          datetime = new Date(datetime);
-          let y = datetime.getFullYear() + '-';
-          let mon = datetime.getMonth() + 1 + '-';
-          let d = datetime.getDate();
-          return y + mon + d;
-        }
-        return ''
-      }
 
+      // 房间号的合计去掉
+      getSummaries (param) {
+        const { columns, data } = param
+        const sums = []
+        columns.forEach((column, index) => {
+          if (index === 0) {
+            sums[index] = '总计'
+          } else if (index === 2 || index === 3 || index === 4 || index === 5
+            || index === 6 || index === 7 || index === 9 || index === 11 || index === 14) {
+            const values = data.map(item => Number(item[column.property]))
+            if (!values.every(value => isNaN(value))) {
+              sums[index] = values.reduce((prev, curr) => {
+                const value = Number(curr)
+                if (!isNaN(value)) {
+                  return prev + curr
+                } else {
+                  return prev
+                }
+              }, 0)
+            }else {
+              sums[index] = 'N/A'
+            }
+          } else {
+            sums[index] = '--'
+          }
+        })
+        return sums
+      },
+      drawShape(){
+        var that = this;
+        this.chartColumn = echarts.init(document.getElementById('chartColumn'));
+        this.chartBar = echarts.init(document.getElementById('chartBar'));
+
+        this.chartColumn.setOption({
+          title: { text: '月度趋势图' },
+          tooltip: {},
+          xAxis: {
+            type: 'category',
+            data: that.dateArr
+          },
+          yAxis: {
+            type: 'value'
+          },
+          series: [{
+            data: that.costArr,
+            type: 'line'
+          }]
+        });
+
+        this.chartBar.setOption({
+          title: { text: '日消费图' },
+          color: ['#3398DB'],
+          tooltip : {
+            trigger: 'axis',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+              type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+          },
+          grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+          },
+          xAxis : [
+            {
+              type : 'category',
+              data : that.dateArr,
+              axisTick: {
+                alignWithLabel: true
+              }
+            }
+          ],
+          yAxis : [
+            {
+              type : 'value'
+            }
+          ],
+          series : [
+            {
+              name:'日消费',
+              type:'bar',
+              barWidth: '60%',
+              data:that.costArr
+            }
+          ]
+        });
+      }
     }
   }
 </script>
