@@ -37,6 +37,8 @@
           <el-table-column align="center" prop="playRemind" label="游玩费用备注" ></el-table-column>
           <el-table-column align="center" prop="others" label="其他" ></el-table-column>
           <el-table-column align="center" prop="othersRemind" label="其他费用备注" ></el-table-column>
+          <el-table-column align="center" prop="gifts" label="人情礼物" ></el-table-column>
+          <el-table-column align="center" prop="giftsRemind" label="人情礼物费用备注" ></el-table-column>
           <el-table-column align="center" prop="work" label="是否上班" sortable>
             <template slot-scope="scope">
                 {{scope.row.work == 1? "上班" : "不上班"}}
@@ -112,7 +114,7 @@
               that.tableData.forEach((item, index) => {
                 that.tableData[index].sumCalc = parseFloat(item.breakfast)+parseFloat(item.lunch)+parseFloat(item.dinner)+
                   parseFloat(item.traffic)+parseFloat(item.sock)+parseFloat(item.clothes)+
-                  parseFloat(item.play)+parseFloat(item.others);
+                  parseFloat(item.play)+parseFloat(item.others)+parseFloat(item.gifts);
                 that.dateArr.push(formatDate(new Date(item.date), "yyyy-MM-dd"));
                 that.costArr.push(that.tableData[index].sumCalc);
                 that.drawShape();

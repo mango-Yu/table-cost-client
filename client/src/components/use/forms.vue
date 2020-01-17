@@ -36,6 +36,12 @@
     <el-form-item label="">
       <el-input type="textarea" v-model="form.clothesRemind" placeholder="服装费用备注(非必填)"></el-input>
     </el-form-item>
+    <el-form-item label="人情费用">
+      <el-input v-model="form.gifts" @input="formatInput('gifts')" @blur="blurInput('gifts')"></el-input>
+    </el-form-item>
+    <el-form-item label="">
+      <el-input type="textarea" v-model="form.giftsRemind" placeholder="人情费用备注(非必填)"></el-input>
+    </el-form-item>
     <el-form-item label="其他费用">
       <el-input v-model="form.others" @input="formatInput('others')" @blur="blurInput('others')"></el-input>
     </el-form-item>
@@ -75,6 +81,8 @@
           playRemind: "",
           others: 0,
           othersRemind: "",
+          gifts: 0,
+          giftsRemind: "",
           user:""
         },
         now:"",
@@ -92,7 +100,7 @@
         return parseFloat(this.form.breakfast)+parseFloat(this.form.lunch)+parseFloat(this.form.dinner)
       },
       all(){
-        return parseFloat(this.eat)+parseFloat(this.form.traffic)+parseFloat(this.form.sock)+parseFloat(this.form.clothes)+parseFloat(this.form.play)+parseFloat(this.form.others)
+        return parseFloat(this.eat)+parseFloat(this.form.traffic)+parseFloat(this.form.sock)+parseFloat(this.form.clothes)+parseFloat(this.form.play)+parseFloat(this.form.others)+parseFloat(this.form.gifts)
       }
     },
     methods: {
@@ -112,7 +120,7 @@
         let flag = 1;
         let error = ""
         for (let i in obj) {
-          if (!(i == "playRemind" || i == "clothesRemind" || i == "othersRemind"||i == "date"||i=='user')) {
+          if (!(i == "playRemind" || i == "clothesRemind" || i == "othersRemind" || i == "giftsRemind"||i == "date"||i=='user')) {
             console.log((obj[i]))
             if ((obj[i]+"")=="") {
               flag = 0;
@@ -171,7 +179,7 @@
             }else{
                 for(let i in that.form){
                   console.log(i)
-                  if (!(i == "playRemind" || i == "clothesRemind" || i == "othersRemind"||i == "date"||i=='user')) {
+                  if (!(i == "playRemind" || i == "clothesRemind" || i == "othersRemind" || i == "giftsRemind"||i == "date"||i=='user')) {
                     that.form[i]=0
                   }else {
                     if(i != "date"&&i != "user"){
