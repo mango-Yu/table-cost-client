@@ -44,7 +44,7 @@
                 {{scope.row.work == 1? "上班" : "不上班"}}
             </template>
           </el-table-column>
-          <el-table-column align="center" prop="sumCalc" label="总计" >
+          <el-table-column align="center" prop="sumCalc" label="总计￥" >
 
           </el-table-column>
         </el-table>
@@ -91,7 +91,8 @@
         chartColumn: null,
         chartBar: null,
         dateArr: [],
-        costArr: []
+        costArr: [],
+        costTypeSumArr: []
       };
     },
     mounted: function () {
@@ -111,14 +112,38 @@
           if(1 === data.code){
             if(data.data.length>0){
               that.tableData=data.data;
+              var breakfastSum = 0, lunchSum = 0, dinnerSum = 0, eatSum = 0, trafficSum = 0, sockSum = 0,
+                  clothesSum = 0, playSum = 0, othersSum = 0, giftsSum = 0;
               that.tableData.forEach((item, index) => {
                 that.tableData[index].sumCalc = parseFloat(item.breakfast)+parseFloat(item.lunch)+parseFloat(item.dinner)+
                   parseFloat(item.traffic)+parseFloat(item.sock)+parseFloat(item.clothes)+
                   parseFloat(item.play)+parseFloat(item.others)+parseFloat(item.gifts);
+                breakfastSum = parseFloat(item.breakfast)+breakfastSum;
+                lunchSum = parseFloat(item.lunch)+lunchSum;
+                dinnerSum = parseFloat(item.dinner)+dinnerSum;
+                trafficSum = parseFloat(item.traffic)+trafficSum;
+                sockSum = parseFloat(item.sock)+sockSum;
+                clothesSum = parseFloat(item.clothes)+clothesSum;
+                playSum = parseFloat(item.play)+playSum;
+                othersSum = parseFloat(item.others)+othersSum;
+                giftsSum = parseFloat(item.gifts)+giftsSum;
                 that.dateArr.push(formatDate(new Date(item.date), "yyyy-MM-dd"));
                 that.costArr.push({"value":that.tableData[index].sumCalc,"name":formatDate(new Date(item.date), "yyyy-MM-dd")});
-                that.drawShape();
-              })
+
+              });
+              that.costTypeSumArr.push(
+                {"value": breakfastSum, "name": "早餐"},
+                {"value": lunchSum, "name": "午餐"},
+                {"value": dinnerSum, "name": "晚餐"},
+                {"value": breakfastSum+lunchSum+dinnerSum,"name":"餐飲"},
+                {"value": trafficSum, "name": "交通"},
+                {"value": sockSum, "name": "零食"},
+                {"value": clothesSum, "name": "服装"},
+                {"value": playSum, "name": "娱乐"},
+                {"value": othersSum, "name": "其他"},
+                {"value": giftsSum, "name": "人情"}
+              );
+              that.drawShape();
             }else{
 
             }
@@ -152,9 +177,9 @@
         const sums = []
         columns.forEach((column, index) => {
           if (index === 0) {
-            sums[index] = '总计'
+            sums[index] = '总计(￥)'
           } else if (index === 2 || index === 3 || index === 4 || index === 5
-            || index === 6 || index === 7 || index === 9 || index === 11 || index === 14) {
+            || index === 6 || index === 7 || index === 9 || index === 11 || index === 131 || index === 16) {
             const values = data.map(item => Number(item[column.property]))
             if (!values.every(value => isNaN(value))) {
               sums[index] = values.reduce((prev, curr) => {
@@ -181,7 +206,7 @@
         this.chartPie = echarts.init(document.getElementById('chartPie'));
 
         this.chartColumn.setOption({
-          title: { text: '月度趋势图' },
+          title: { text: '月度趋势图(￥)' },
           tooltip: {},
           xAxis: {
             type: 'category',
@@ -197,7 +222,7 @@
         });
 
         this.chartBar.setOption({
-          title: { text: '日消费图' },
+          title: { text: '日消费图(￥)' },
           color: ['#3398DB'],
           tooltip : {
             trigger: 'axis',
@@ -236,24 +261,26 @@
         });
         this.chartPie.setOption({
           title: {
-            text: '日消费统计',
+            text: '类消费总计(￥)',
             left: 'center'
           },
           tooltip: {
             trigger: 'item',
-            formatter: '{a} <br/>{b} : {c} ({d}%)'
+            formatter: '{a} <br/>{b} : {c}元({d}%)'
           },
-          /*legend: {
+          legend: {
             orient: 'vertical',
-            left: 'left',
-            data: that.dateArr
-          },*/
+            left: '100',
+            top: '100',
+            data: ["早餐", "午餐", '晚餐', "餐飲", "交通", "零食", "服装", "娱乐", "其他", "人情"]
+          },
           series: [
             {
+              name: '花销',
               type: 'pie',
               radius: '55%',
               center: ['50%', '60%'],
-              data: that.costArr,
+              data: that.costTypeSumArr,
               emphasis: {
                 itemStyle: {
                   shadowBlur: 10,
