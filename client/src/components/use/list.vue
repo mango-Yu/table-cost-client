@@ -179,7 +179,7 @@
           if (index === 0) {
             sums[index] = '总计(￥)'
           } else if (index === 2 || index === 3 || index === 4 || index === 5
-            || index === 6 || index === 7 || index === 9 || index === 11 || index === 131 || index === 16) {
+            || index === 6 || index === 7 || index === 9 || index === 11 || index === 13 || index === 16) {
             const values = data.map(item => Number(item[column.property]))
             if (!values.every(value => isNaN(value))) {
               sums[index] = values.reduce((prev, curr) => {
