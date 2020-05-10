@@ -9,7 +9,7 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import store from '@/store/store'
 import io from 'vue-socket.io';
-Vue.use(io, 'http://123.206.62.148:3000');
+Vue.use(io, 'https://www.clubmsg.com:3000');
 
 
 Vue.use(Vuex)
